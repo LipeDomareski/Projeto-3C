@@ -33,23 +33,27 @@ if($usuario == true){
         echo "5 - Excluir veículo\n";
         echo "0 - Sair\n";
             
-        $opcao = readline("Digite a opção desejada: ");
+        $opcao = readline("Digite a opção desejada: ") . "\n" ;
 
         switch ($opcao) {
     case "1":
         echo "\nLista de Veículos:\n";
+        listarcarro($vehicles);
         break;
 
     case "2":
-        echo "\nBuscar veículo por ID:\n";
+        // echo "\nBuscar veículo por ID:\n";
+        buscarId($vehicles);
         break;
 
     case "3":
         echo "\nAdicionar veículo:\n";
+        adicionarVeiculo($vehicles);
         break;
 
     case "4":
         echo "\nAtualizar veículo:\n";
+        atualizarVeiculo($vehicles);
         break;
 
     case "5":
