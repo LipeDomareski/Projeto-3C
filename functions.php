@@ -635,7 +635,7 @@ function autenticar($email, $senha) {
 }
 
 //========== painel Usuarios =================
-function painelUsuarios($user){
+function painelUsuarios(&$user){
      while (true) {
         echo "\n=========================================\n";
         echo "      👥  Painel de Usuarios 👥    \n";
@@ -657,6 +657,7 @@ function painelUsuarios($user){
                 break;
 
             case "2":
+                adicionarUsuario($users);
                 break;
 
             case "3":
@@ -685,7 +686,7 @@ function painelUsuarios($user){
 }
 
 //========== listar Usuarios =================
-function listarUsuarios($users){
+function listarUsuarios(&$users){
     global $users;
     foreach ($users as $u) {
         $saldoFormatado = "R$ " . number_format($u['carteira_reais'], 2, ",", ".");
@@ -705,4 +706,52 @@ function listarUsuarios($users){
         }
     }
     echo "----------------------------\n";
+}
+
+//========== Adicionar Usuario ===============
+function adicionarUsuario (&$users){
+    global $users;
+    if (empty($users)){
+        $addId = 1;
+    }
+    else{
+    $addId = end($users)["id"] +1;
+    }
+    echo "\n=========================================\n";
+    echo "          👤 Adicionar Usuario!            ";
+    echo "\n=========================================\n";
+    $nome = readline("Adicione o Nome de Usuario: ");
+    $email = readline("Adicione o Endereço de E-mail: ");
+    $senha = readline("Digite a Senha de Acesso: ");
+        
+    //dados adicionados por padrão!
+    $carteira_reais = 90000.00;
+    $nivel = 1;
+    $xp = 0;
+    $garagem = [];
+
+    $campos = [$nome, $email, $senha];
+
+    foreach ($campos as $c){
+
+        if (trim($c) == ""){
+            echo "preencha todos os campos!\n";
+            return;
+    }
+
+    }
+        $users[] = [
+        "id" => $addId,
+        "nome" => $nome,
+        "email" => $email,
+        "senha" => $senha,
+        "carteira_reais" => $carteira_reais,
+        "nivel_piloto" => $nivel,
+        "xp" => $xp,
+        "garagem" => $garagem
+        ];
+
+    echo "🟢 usuario $nome adicionado com sucesso!\n";
+    // print_r ($users);
+
 }
