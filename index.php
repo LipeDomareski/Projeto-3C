@@ -27,7 +27,7 @@ while(true){
             echo "1 - 🔰 Catálogo de Veículos\n";
             echo "2 - 🔧 Peças\n";
             echo "3 - 👥 Piloto\n";
-            echo "0 - 🇯🇵 Sair\n";
+            echo "0 - 🎌 Sair\n";
             echo "==============================\n";
 
             // Removi o . "\n" do final do readline para evitar bugs de espaçamento no switch
@@ -35,7 +35,7 @@ while(true){
 
             switch ($opcao) {
                 case "1":
-                    echo "\nRede de veiculos\n";
+                    echo "\n🔰 Rede de veiculos\n";
                     veiculos($vehicles); 
                     break;
 
@@ -45,12 +45,16 @@ while(true){
                     break;
 
                 case "3":
-                    
+                    echo "\n👥 Rede de Usuarios\n";
+                    painelUsuarios($users);
+                    break;
+
+                case "4";
                     readline("\nPressione ENTER para voltar...");
                     break;
 
                 case "0":
-                    echo "\n🇯🇵 Saindo do programa... Sayōnara!\n";
+                    echo "\n 🎌 Saindo do programa... Sayōnara!\n";
                     exit;
               
                 default:
@@ -60,6 +64,6 @@ while(true){
             }
         }
     } else {
-        echo "Credenciais inválidas! Tente novamente.\n\n";
+        echo "Login inválido!\n\n";
     }
 }

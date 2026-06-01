@@ -1,18 +1,5 @@
 <?php
 
-//========autenticação de usuários========
-function autenticar($email, $senha) {
-    global $users;
-    foreach ($users as $user) {
-        if ($user["email"] === $email && $user["senha"] === $senha) {
-            return true;
-        }
-        }
-        echo "usuario não encontrado\n";
-        }
-        return false;
-
-
  //================================================| VEICULOS |===================================================
 
 //========listar veiculos==========
@@ -139,7 +126,7 @@ function atualizarVeiculo(&$vehicles) {
     $opcao = readline("Para atualizar o veículo desejado digite o ID: ");
     
     if (trim($opcao) == "") {
-        echo "❌ Digite um ID válido!\n";
+        echo "Digite um ID válido!\n";
         return;
     }
 
@@ -148,73 +135,58 @@ function atualizarVeiculo(&$vehicles) {
             echo "\n🔧 --- ATUALIZANDO: {$v['marca']} {$v['modelo']} --- 🔧\n";
             echo "(Pressione ENTER sem digitar nada para manter o valor atual)\n\n";
 
-            // 1. Modelo
             echo "Modelo atual: " . $v["modelo"] . "\n";
             $newModelo = readline("Mudar modelo: ");
             $v["modelo"] = (trim($newModelo) !== "") ? $newModelo : $v["modelo"];
 
-            // 2. Ano
             echo "Ano atual: " . $v["ano"] . "\n";
             $newAno = readline("Mudar ano: ");
             $v["ano"] = (trim($newAno) !== "") ? (int)$newAno : $v["ano"];
 
-            // 3. Marca
             echo "Marca atual: " . $v["marca"] . "\n";
             $newMarca = readline("Mudar marca: ");
             $v["marca"] = (trim($newMarca) !== "") ? $newMarca : $v["marca"];
 
-            // 4. Preço Ienes
             echo "Ienes atual: " . $v["preco_ienes"] . "\n";
             $newIenes = readline("Mudar valor em Ienes: ");
             $v["preco_ienes"] = (trim($newIenes) !== "") ? (float)$newIenes : $v["preco_ienes"];
 
-            // 5. Taxa de Importação
             echo "Taxa atual: " . $v["taxa_importacao"] . "\n";
             $newTaxa = readline("Mudar taxa: ");
             $v["taxa_importacao"] = (trim($newTaxa) !== "") ? (float)$newTaxa : $v["taxa_importacao"];
 
-            // 6. FIPE
             echo "FIPE atual: " . $v["fipe"] . "\n";
             $newFipe = readline("Mudar FIPE: ");
             $v["fipe"] = (trim($newFipe) !== "") ? (float)$newFipe : $v["fipe"];
 
-            // 7. Estoque
             echo "Estoque atual: " . $v["estoque"] . "\n";
             $newEstoque = readline("Mudar estoque: ");
             $v["estoque"] = (trim($newEstoque) !== "") ? (int)$newEstoque : $v["estoque"];
 
-            // 8. Carroceria
             echo "Carroceria atual: " . $v["carroceria"] . "\n";
             $newCarroceria = readline("Mudar carroceria: ");
             $v["carroceria"] = (trim($newCarroceria) !== "") ? $newCarroceria : $v["carroceria"];
 
-            // -------------------------------------------------------------
-            // NOVOS CAMPOS DO PROJETO JDM
-            // -------------------------------------------------------------
-            
-            // 9. Chassi
             echo "Chassi atual: " . $v["chassi"] . "\n";
             $newChassi = readline("Mudar chassi: ");
             $v["chassi"] = (trim($newChassi) !== "") ? $newChassi : $v["chassi"];
 
-            // 10. Potência Original
             echo "Potência Original atual: " . $v["potencia_original"] . " cv\n";
             $newPotenciaOrig = readline("Mudar potência original: ");
             $v["potencia_original"] = (trim($newPotenciaOrig) !== "") ? (int)$newPotenciaOrig : $v["potencia_original"];
 
-            // 11. Potência Atual
             echo "Potência Atual: " . $v["potencia_atual"] . " cv\n";
             $newPotenciaAtual = readline("Mudar potência atual: ");
             $v["potencia_atual"] = (trim($newPotenciaAtual) !== "") ? (int)$newPotenciaAtual : $v["potencia_atual"];
 
-            // Nota: Não mexemos em 'pecas_instaladas' aqui, pois elas serão alteradas na oficina!
+            // idea: Não mexemos em 'pecas_instaladas' aqui, pois elas serão alteradas na oficina!
 
             echo "\n🟢 Veículo atualizado com sucesso!\n";
             return;
         }
     }
 
-    echo "❌ Veículo não encontrado!\n";
+    echo "Veículo não encontrado!\n";
 }
 
 //============ Excluir veiculo ==============
@@ -352,7 +324,6 @@ function veiculos(&$vehicles) {
 //=====================================================| AUTO PEÇAS |===============================================
 
 //============== painel de peças ==================
-
 function pecas(&$parts) {
     while (true) {
         echo "\n=========================================\n";
@@ -363,6 +334,8 @@ function pecas(&$parts) {
         echo "3. - Atualizar Dados de uma Peça\n";
         echo "4. - Remover Peça do Mercado\n";
         echo "5. - Buscar Peça por ID\n";
+        echo "6. - Buscar Peça por Categoria\n";
+        echo "7. - Buscar Peça por Compatibilidade\n";
         echo "0. - Voltar ao Menu Principal\n";
         echo "=========================================\n";
         
@@ -386,7 +359,15 @@ function pecas(&$parts) {
                 break;
 
             case "5":
-                buscarPecaPorId($parts);
+                buscarPecaId($parts);
+                break;
+
+            case "6":
+                buscarCategoria($parts);
+                break;
+
+            case "7":
+                buscarCompatibilidade($parts);
                 break;
 
             case "0":
@@ -459,4 +440,269 @@ function adicionarPeca (&$parts){
 
     echo "Veiculo adicionado com sucesso!\n";
 
+}
+
+//============== Atualizar Peças ==================
+function atualizarPeca(&$parts) {
+    $opcao = readline("Para atualizar a peça desejada digite o ID: ");
+    
+    if (trim($opcao) == "") {
+        echo "Digite um ID válido!\n";
+        return;
+    }
+
+    foreach ($parts as &$p) {
+        if ($opcao == $p["id"]) {
+            echo "\n🔧 --- ATUALIZANDO PEÇA: {$p['nome']} --- 🔧\n";
+            echo "(Pressione ENTER sem digitar nada para manter o valor atual)\n\n";
+
+            echo "Nome atual: " . $p["nome"] . "\n";
+            $newNome = readline("Mudar nome: ");
+            $p["nome"] = (trim($newNome) !== "") ? $newNome : $p["nome"];
+
+            echo "Categoria atual: " . $p["categoria"] . "\n";
+            $newCategoria = readline("Mudar categoria: ");
+            $p["categoria"] = (trim($newCategoria) !== "") ? $newCategoria : $p["categoria"];
+
+            echo "Preço em Ienes atual: ¥" . number_format($p["valor_ienes"], 0, "", ".") . "\n";
+            $newValor = readline("Mudar valor em Ienes: ");
+            $p["valor_ienes"] = (trim($newValor) !== "") ? (float)$newValor : $p["valor_ienes"];
+
+            echo "Taxa atual: " . ($p["taxa_importacao"] * 100) . "%\n";
+            $newTaxa = readline("Mudar taxa (Ex: 0.40): ");
+            $p["taxa_importacao"] = (trim($newTaxa) !== "") ? (float)$newTaxa : $p["taxa_importacao"];
+
+            echo "Ganho de potência atual: " . $p["ganho_potencia"] . " cv\n";
+            $newPotencia = readline("Mudar ganho de potência: ");
+            $p["ganho_potencia"] = (trim($newPotencia) !== "") ? (int)$newPotencia : $p["ganho_potencia"];
+
+            echo "Compatibilidade atual: " . $p["compatibilidade_chassi"] . "\n";
+            $newCompatibilidade = readline("Mudar compatibilidade: ");
+            $p["compatibilidade_chassi"] = (trim($newCompatibilidade) !== "") ? $newCompatibilidade : $p["compatibilidade_chassi"];
+
+            echo "Estoque atual: " . $p["estoque"] . "\n";
+            $newEstoque = readline("Mudar estoque: ");
+            $p["estoque"] = (trim($newEstoque) !== "") ? (int)$newEstoque : $p["estoque"];
+
+            echo "\n🟢 Peça atualizada com sucesso!\n";
+            return;
+        }
+    }
+
+    echo "Peça não encontrada!\n";
+}
+
+//============ Remover Peça do Mercado ============
+function removerPeca(&$parts) {
+    $busca = (int)readline("Digite o ID da peça para remover: ");
+
+    if ($busca <= 0) {
+        echo "❌ ID inválido!\n";
+        return;
+    }
+    
+    foreach ($parts as $indice => $p) {
+        if ($busca == $p["id"]) {
+            unset($parts[$indice]);
+            $parts = array_values($parts); // Reorganiza os índices do array
+            echo "🗑️ Peça removida do mercado com sucesso!\n";
+            return;
+        }
+    }
+
+    echo "❌ ID não encontrado!\n";
+}
+
+//============ Buscar Peça por ID =================
+function buscarPecaId($parts) {
+    $busca = trim(readline("Digite o ID da peça que deseja pesquisar: "));
+
+    if ($busca == "") {
+        echo "Digite um ID válido!\n";
+        return;
+    }
+
+    foreach ($parts as $p) {
+        if ($busca == $p["id"]) {
+            $taxaCambio = 28;
+            $precoReal = $p['valor_ienes'] / $taxaCambio;
+            $custoImportacao = $precoReal + ($precoReal * $p['taxa_importacao']);
+
+            echo "\n=========================================\n";
+            echo "🔍       DETALHES DA PEÇA JDM            \n";
+            echo "=========================================\n";
+            echo "ID da Peça:     " . $p["id"] . "\n";
+            echo "Nome:           " . $p["nome"] . "\n";
+            echo "Categoria:      " . $p["categoria"] . "\n";
+            echo "Compatibilidade:" . $p["compatibilidade_chassi"] . "\n";
+            echo "Estoque Loja:   " . $p["estoque"] . " un.\n";
+            echo "-----------------------------------------\n";
+            echo "Ganho Real:     +" . $p["ganho_potencia"] . " cv 🔥\n";
+            echo "-----------------------------------------\n";
+            echo "Preço no Japão: ¥" . number_format($p['valor_ienes'], 0, "", ".") . "\n";
+            echo "Taxa Import. :  " . ($p['taxa_importacao'] * 100) . "%\n";
+            echo "Custo Estimado: R$ " . number_format($custoImportacao, 2, ",", ".") . " (c/ taxas)\n";
+            echo "=========================================\n";
+            return;
+        }
+    }
+
+    echo "Peça com ID '$busca' não foi encontrada!\n";
+}
+
+//============ Busca Por categoria ================
+function buscarCategoria($parts) {
+    $busca = trim(readline("Digite a categoria da peça que deseja pesquisar: "));
+
+    if ($busca == "") {
+        echo "Digite uma categoria válida!\n";
+        return;
+    }
+
+    foreach ($parts as $p) {
+        if ($busca == $p["categoria"]) {
+            $taxaCambio = 28;
+            $precoReal = $p['valor_ienes'] / $taxaCambio;
+            $custoImportacao = $precoReal + ($precoReal * $p['taxa_importacao']);
+
+            echo "\n=========================================\n";
+            echo "ID da Peça:     " . $p["id"] . "\n";
+            echo "Nome:           " . $p["nome"] . "\n";
+            echo "Categoria:      " . $p["categoria"] . "\n";
+            echo "Compatibilidade:" . $p["compatibilidade_chassi"] . "\n";
+            echo "Estoque Loja:   " . $p["estoque"] . " un.\n";
+            echo "-----------------------------------------\n";
+            echo "Ganho Real:     +" . $p["ganho_potencia"] . " cv\n";
+            echo "-----------------------------------------\n";
+            echo "Preço no Japão: ¥" . number_format($p['valor_ienes'], 0, "", ".") . "\n";
+            echo "Taxa Import. :  " . ($p['taxa_importacao'] * 100) . "%\n";
+            echo "Custo Estimado: R$ " . number_format($custoImportacao, 2, ",", ".") . " (c/ taxas)\n";
+            echo "=========================================\n";
+            return;
+        }
+    }
+
+    echo "Peça com ID '$busca' não foi encontrada!\n";
+}
+
+//============ Buscar Por Compatibilidade =========
+function buscarCompatibilidade($parts) {
+    $busca = trim(readline("Digite a Plataforma para verificar peças compativeis: "));
+
+    if ($busca == "") {
+        echo "Digite uma Categoria válida!\n";
+        return;
+    }
+
+    foreach ($parts as $p) {
+        if ($busca == $p["compatibilidade_chassi"]) {
+            $taxaCambio = 28;
+            $precoReal = $p['valor_ienes'] / $taxaCambio;
+            $custoImportacao = $precoReal + ($precoReal * $p['taxa_importacao']);
+            
+            echo "\n=========================================\n";
+            echo "ID da Peça:     " . $p["id"] . "\n";
+            echo "Nome:           " . $p["nome"] . "\n";
+            echo "Categoria:      " . $p["categoria"] . "\n";
+            echo "Compatibilidade:" . $p["compatibilidade_chassi"] . "\n";
+            echo "Estoque Loja:   " . $p["estoque"] . " un.\n";
+            echo "-----------------------------------------\n";
+            echo "Ganho Real:     +" . $p["ganho_potencia"] . " cv 🔥\n";
+            echo "-----------------------------------------\n";
+            echo "Preço no Japão: ¥" . number_format($p['valor_ienes'], 0, "", ".") . "\n";
+            echo "Taxa Import. :  " . ($p['taxa_importacao'] * 100) . "%\n";
+            echo "Custo Estimado: R$ " . number_format($custoImportacao, 2, ",", ".") . " (c/ taxas)\n";
+            echo "=========================================\n";
+            return;
+        }
+    }
+
+    echo "Peças compativeis com o '$busca' não foram encontradas!\n";
+}
+
+
+//=========================================== Usuarios/Pilotos ===============================================
+
+//========== autenticação de usuários ========
+function autenticar($email, $senha) {
+    global $users;
+    foreach ($users as $user) {
+        if ($user["email"] === $email && $user["senha"] === $senha) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//========== painel Usuarios =================
+function painelUsuarios($user){
+     while (true) {
+        echo "\n=========================================\n";
+        echo "      👥  Painel de Usuarios 👥    \n";
+        echo "=========================================\n";
+        echo "1. - Visualizar Usuarios Ativos\n";
+        echo "2. - Adicionar Usuarios\n";
+        echo "3. - Atualizar Usuarios\n";
+        echo "4. - Remover Usuarios\n";
+        echo "5. - Buscar Usuarios pelo ID\n";
+        echo "6. - Buscar Usuarios por Nivel\n";
+        echo "0. - Voltar para o Menu!\n";
+        echo "=========================================\n";
+        
+        $escolha = trim(readline("Selecione uma opção: "));
+
+        switch ($escolha) {
+            case "1":
+                listarUsuarios($users);
+                break;
+
+            case "2":
+                break;
+
+            case "3":
+                break;
+
+            case "4":
+                break;
+
+            case "5":
+                break;
+
+            case "6":
+                break;
+
+            case "0":
+                echo "\nVoltando para o Menu Principal...\n";
+                return;
+
+            default:
+                echo "Opção inválida!\n";
+                break;
+        }
+        
+        readline("\nPressione ENTER para continuar...");
+    }
+}
+
+//========== listar Usuarios =================
+function listarUsuarios($users){
+    global $users;
+    foreach ($users as $u) {
+        $saldoFormatado = "R$ " . number_format($u['carteira_reais'], 2, ",", ".");
+
+        echo "\n----------------------------\n";
+        echo "ID:      " . $u['id'] . "\n";
+        echo "Nome:    " . $u['nome'] . "\n";
+        echo "Email:   " . $u['email'] . "\n";
+        echo "Senha:   " . $u['senha'] . "\n"; 
+        echo "Saldo:   " . $saldoFormatado . "\n";
+        echo "Nível:   " . $u['nivel_piloto'] . " (XP: " . $u['xp'] . ")\n";
+
+        if (empty($u['garagem'])) {
+            echo "Garagem: Vazia (Nenhum carro importado)\n";
+        } else {
+            echo "Garagem: " . implode(", ", $u['garagem']) . "\n"; 
+        }
+    }
+    echo "----------------------------\n";
 }
