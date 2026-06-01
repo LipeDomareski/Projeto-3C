@@ -625,12 +625,17 @@ function buscarCompatibilidade($parts) {
 
 //========== autenticação de usuários ========
 function autenticar($email, $senha) {
-    global $users;
-    foreach ($users as $user) {
-        if ($user["email"] === $email && $user["senha"] === $senha) {
+    global $users, $usuarioId; // 🟢 Puxa o banco e a sessão global do index.php
+
+    foreach ($users as $u) {
+        // CORRIGIDO: Agora usa $email e $senha, que vêm dos parênteses da função!
+        if ($u['email'] == $email && $u['senha'] == $senha) {
+            $usuarioId = $u['id']; // 🟢 Guarda o ID do usuário que logou de verdade!
+            echo "🟢 Login feito com sucesso!\n";
             return true;
         }
     }
+    echo "❌ E-mail ou senha incorretos.\n";
     return false;
 }
 
@@ -729,6 +734,7 @@ function adicionarUsuario (&$users){
     $nivel = 1;
     $xp = 0;
     $garagem = [];
+    $pecas = [];
 
     $campos = [$nome, $email, $senha];
 
@@ -755,3 +761,4 @@ function adicionarUsuario (&$users){
     // print_r ($users);
 
 }
+

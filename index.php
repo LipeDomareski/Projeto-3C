@@ -5,6 +5,9 @@ require_once "vehicles.php";
 require_once "users.php";
 require_once "functions.php";
 require_once "parts.php";
+require_once "garage.php";
+
+$usuarioId = null;
 
 echo "
 ----------------------------------------------------------------
@@ -14,10 +17,11 @@ echo "
 echo "Faça login para continuar.\n";
 
 while(true){
-    $email = readline("Email: ");
-    $senha = readline("Senha: ");   
 
-    $usuario = autenticar($email, $senha);
+    echo "\n========== 🔐 TELA DE LOGIN ==========\n";
+    $emailDigitado = readline("E-mail: ");
+    $senhaDigitada = readline("Senha: ");
+    $usuario = autenticar($emailDigitado, $senhaDigitada);
 
     if($usuario == true){
 
@@ -27,6 +31,7 @@ while(true){
             echo "1 - 🔰 Catálogo de Veículos\n";
             echo "2 - 🔧 Peças\n";
             echo "3 - 👥 Piloto\n";
+            echo "4 - Garagem\n";
             echo "0 - 🎌 Sair\n";
             echo "==============================\n";
 
@@ -49,7 +54,12 @@ while(true){
                     painelUsuarios($users);
                     break;
 
-                case "4";
+                case "4":
+                    echo "\nGaragem\n";
+                    painelGaragem($users);
+                    break;
+
+                case "5";
                     readline("\nPressione ENTER para voltar...");
                     break;
 

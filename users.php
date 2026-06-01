@@ -9,7 +9,8 @@ $users = [
         "carteira_reais" => 500000.00,
         "nivel_piloto" => 10,
         "xp" => 5000,
-        "garagem" => []
+        "garagem" => [],
+        "pecas" => []
     ],
     [ 
         "id" => 2, 
@@ -19,7 +20,8 @@ $users = [
         "carteira_reais" => 150000.00,
         "nivel_piloto" => 1,
         "xp" => 0,
-        "garagem" => []
+        "garagem" => [],
+        "pecas" => []
     ],
     [ 
         "id" => 3, 
@@ -29,7 +31,8 @@ $users = [
         "carteira_reais" => 85000.00,
         "nivel_piloto" => 1,
         "xp" => 150,
-        "garagem" => []
+        "garagem" => ["Civic Type R (EK9)"],
+        "pecas" => ["Kit Turbo Garrett Intercooled", "Escapamento Inox GReddy Evolution GT", "Filtro de Ar Esportivo K&N (Intake)" ]
     ]
 ];
 
