@@ -35,7 +35,6 @@ while(true){
             echo "0 - 🎌 Sair\n";
             echo "==============================\n";
 
-            // Removi o . "\n" do final do readline para evitar bugs de espaçamento no switch
             $opcao = trim(readline("Digite a opção desejada: ")); 
 
             switch ($opcao) {

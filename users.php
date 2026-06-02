@@ -36,5 +36,4 @@ $users = [
     ]
 ];
 
-
 //php usuarios.php
